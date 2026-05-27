@@ -44,13 +44,16 @@ class Combinator_repetition {
             throw "[] Current word contains characters that are not in the base words."
         }
 
-        for($i =0; $i -lt $this.CurrentWord.Length; $i++){
+        for($i = 0; $i -lt $this.CurrentWord.Length; $i++){
             for ($j = 0; $j -lt $this.BaseWords.Length; $j++){
+                
                 if ($this.CurrentWord[$i] -eq $this.BaseWords[$j]){
                     if ($j + 1 -ge $this.BaseWords.Length){
+                        
                         $chars = $this.CurrentWord.ToCharArray()
                         $chars[$i] = $this.BaseWords[0]
                         $this.CurrentWord = -join $chars
+
                     }else{
                         Write-Host "current base word $($this.BaseWords[$j]) index $j"
 
