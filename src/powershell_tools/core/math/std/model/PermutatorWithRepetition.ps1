@@ -1,9 +1,9 @@
 # ====================================
 #           explanation
 # ====================================
-# Combinator_repetition is a class that generates all possible combinations of characters from a given set of base words. 
+# PermutatorWithRepetition is a class that generates all possible permutations of characters from a given set of base words. 
 # It allows for repetition of characters,
-# meaning that the same character can be used multiple times in the generated combinations.
+# meaning that the same character can be used multiple times in the generated permutations.
 #
 # ====================================
 #           actions
@@ -15,9 +15,9 @@
 # ====================================
 #           functions
 # ====================================
-# GetCurrentWord: Return the current combination of characters.
-# GetNextCombination: Return the next combination of characters without updating the CurrentWord.
-# ToNextCombination: Update the CurrentWord to the next combination of characters based on the BaseWords.
+# GetCurrentWord: Return the current permutation of characters.
+# GetNextPermutation: Return the next permutation of characters without updating the CurrentWord.
+# ToNextPermutation: Update the CurrentWord to the next permutation of characters based on the BaseWords.
 #
 
 
@@ -38,34 +38,43 @@ class PermutatorWithRepetition {
         $this.CurrentWord = $baseWords[0]
     }
 
+    [string]GetNextPermutation() {
+        $temp = [PermutatorWithRepetition]::new($this.BaseWords)
+        $temp.CurrentWord = $this.CurrentWord
+        
+        return $temp.ToNextPermutation()
+    }
 
-    [string]ToNextCombination() {
+    [string]ToNextPermutation() {
         if (-not $this.CheckCurrentWordIsInBaseWords()) {
             throw "[] Current word contains characters that are not in the base words."
         }
 
-        for($i = 0; $i -lt $this.CurrentWord.Length; $i++){
-            for ($j = 0; $j -lt $this.BaseWords.Length; $j++){
-                
-                if ($this.CurrentWord[$i] -eq $this.BaseWords[$j]){
-                    if ($j + 1 -ge $this.BaseWords.Length){
-                        
-                        $chars = $this.CurrentWord.ToCharArray()
-                        $chars[$i] = $this.BaseWords[0]
-                        $this.CurrentWord = -join $chars
-
-                    }else{
-                        Write-Host "current base word $($this.BaseWords[$j]) index $j"
-
-                        $chars = $this.CurrentWord.ToCharArray()
-                        $chars[$i] = $this.BaseWords[$j + 1]
-                        $this.CurrentWord = -join $chars
-                        break
-                    }
-                }
+        # Carry over starting from the far right.
+        for ($i = $this.CurrentWord.Length - 1; $i -ge 0; $i--) {
+            # Find the index of the current character in BaseWords
+            $currentChar = $this.CurrentWord[$i]
+            $currentIndex = $this.BaseWords.IndexOf($currentChar)
+            
+            # If it's not the last character, we can increment it
+            if ($currentIndex -lt $this.BaseWords.Length - 1) {
+                # Increment the current character to the next one in BaseWords and return
+                $chars = $this.CurrentWord.ToCharArray()
+                $chars[$i] = $this.BaseWords[$currentIndex + 1]
+                $this.CurrentWord = -join $chars
+                return $this.CurrentWord
+            }
+            else {
+                # The current position is already the last character
+                # Reset to the first character, and continue carrying over
+                $chars = $this.CurrentWord.ToCharArray()
+                $chars[$i] = $this.BaseWords[0]
+                $this.CurrentWord = -join $chars
             }
         }
-
+        
+        # All positions have been carried over, add a new position
+        $this.CurrentWord = $this.BaseWords[0] + $this.CurrentWord
         return $this.CurrentWord
     }
 
