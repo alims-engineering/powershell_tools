@@ -30,13 +30,27 @@
 $Combinator_repetition_default_characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!""#$%&'()*+,-./:;<=>?@[\]^_`{|}~ "
 
 class PermutatorWithRepetition {
-    [string]$BaseWords = $Combinator_repetition_default_characters
-    [string]$CurrentWord = $Combinator_repetition_default_characters[0]
+    static [string] $DefaultCharacters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!`"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ "
+    
+    [string]$BaseWords = [PermutatorWithRepetition]::DefaultCharacters
+    [string]$CurrentWord = [PermutatorWithRepetition]::DefaultCharacters[0]
+    
+    # ====================================
+    #           Constructor
+    # ====================================
+    PermutatorWithRepetition() {
+        $this.BaseWords = [PermutatorWithRepetition]::DefaultCharacters
+        $this.CurrentWord = $this.BaseWords[0]
+    }
 
     PermutatorWithRepetition([string]$baseWords) {
         $this.BaseWords = $baseWords
         $this.CurrentWord = $baseWords[0]
     }
+
+    # ====================================
+    #       Public Methods 
+    # ====================================
 
     [string]GetNextPermutation() {
         $temp = [PermutatorWithRepetition]::new($this.BaseWords)
@@ -77,6 +91,7 @@ class PermutatorWithRepetition {
         $this.CurrentWord = $this.BaseWords[0] + $this.CurrentWord
         return $this.CurrentWord
     }
+
 
     hidden [boolean] CheckCurrentWordIsInBaseWords() {
         foreach ($char in $this.CurrentWord.ToCharArray()){
