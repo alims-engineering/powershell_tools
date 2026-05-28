@@ -1,5 +1,5 @@
 # ====================================
-#           explaination
+#           explanation
 # ====================================
 # Combinator_repetition is a class that generates all possible combinations of characters from a given set of base words. 
 # It allows for repetition of characters,
@@ -21,7 +21,7 @@
 #
 
 
-# number (10): 0 - 9 
+# number (10): 0 - 9
 # small alphabet (26): a - z
 # capital alphabet (26): A - Z
 # special characters (32): ! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { | } ~
@@ -29,11 +29,11 @@
 # total: 95 characters (printable ASCII characters)
 $Combinator_repetition_default_characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!""#$%&'()*+,-./:;<=>?@[\]^_`{|}~ "
 
-class Combinator_repetition {
+class PermutatorWithRepetition {
     [string]$BaseWords = $Combinator_repetition_default_characters
     [string]$CurrentWord = $Combinator_repetition_default_characters[0]
 
-    Combinator_repetition([string]$baseWords) {
+    PermutatorWithRepetition([string]$baseWords) {
         $this.BaseWords = $baseWords
         $this.CurrentWord = $baseWords[0]
     }
