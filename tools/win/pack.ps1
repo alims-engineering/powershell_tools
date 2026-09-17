@@ -56,7 +56,7 @@ $self_file_name = $MyInvocation.MyCommand.Name
 # --------------------------------
 # Get current directory files
 # --------------------------------
-$files = Get-ChildItem -File
+$files = Get-ChildItem -File -Force
 
 # --------------------------------
 # Compress files one by one
